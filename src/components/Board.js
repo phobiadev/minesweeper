@@ -1,4 +1,21 @@
-export default function Board({ board, handleCellClick }) {
+const touchingColors = [
+    "blue",
+    "green",
+    "red",
+    "purple",
+    "purple",
+    "purple",
+    "purple",
+    "purple"
+]
+
+export default function Board(props) {
+    const {
+        board,
+        handleCellClick
+    } = props
+
+
     function getTouching(row,col) {
         let touching = 0;
         let possibles = [
@@ -36,7 +53,7 @@ export default function Board({ board, handleCellClick }) {
                         } else {
                             let touching = getTouching(i,j)
                             if (touching > 0) {
-                                cellInner = <div>{touching}</div>
+                                cellInner = <div style={{color: touchingColors[touching-1]}}>{touching}</div>
                             }
                             
                         }
