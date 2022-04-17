@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300&display=swap');
+
+:root {
+  --light-green: lightgreen;
+  --dark-green: #73d273;
+  --revealed-green: #c3ffc2;
+}
+
+* {
+  font-family: "JetBrains Mono", monospace;
+}
+
+.minesweeper-board-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.minesweeper-board {
+  border: 15px solid darkgreen;
+  border-radius: 15px;
+  display: grid;
+  grid-template-columns: repeat(8,50px);
+}
+
+.minesweeper-cell {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .4s ease;
+
+}
+
+.lighter-green {
+  background-color: var(--light-green);
+}
+
+.darker-green {
+  background-color: var(--dark-green);
+}
+
+.revealed {
+  background-color: var(--revealed-green);
+}
+
+.minesweeper-mine {
+  height: 70%;
+  width: 70%;
+  background-color: red;
+  border-radius: 50px;
+  animation-name: appear;
+  animation-duration: .3s;
+}
+
+.reset-button {
+  position: absolute;
+  height: 120px;
+  width: 250px;
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  background-color: red;
+  border: 7px solid darkred;
+  border-radius: 20px;
+  animation-name: appear;
+  animation-duration: 1s;
+}
+
+@keyframes appear {
+  0% {
+    transform: scale(0,0);
+  }
+  100% {
+    transform: scale(1,1);
+  }
+}
+
+@media(max-width: 600px;) {
+  .minesweeper-board {
+    transform: scale(.7,.7)
+  }
+}
