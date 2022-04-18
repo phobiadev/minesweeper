@@ -1,11 +1,11 @@
 import './App.css';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // component imports
 import Board from "./components/Board.js"
 
 // lib imports
-import { getRandomInt, generateBoard } from "./minesweeper"
+import { generateBoard } from "./minesweeper"
 
 
 const rows = 8;
