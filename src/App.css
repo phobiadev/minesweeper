@@ -22,12 +22,13 @@
   border: 15px solid darkgreen;
   border-radius: 15px;
   display: grid;
-  grid-template-columns: repeat(8,50px);
+  grid-template-columns: repeat(18,30px);
 }
 
 .minesweeper-cell {
-  height: 50px;
-  width: 50px;
+  outline: 0.5px solid darkgreen;
+  height: 30px;
+  width: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,8 +53,8 @@
   width: 70%;
   background-color: red;
   border-radius: 50px;
-  animation-name: appear;
-  animation-duration: .3s;
+  animation-name: explode;
+  animation-duration: .6s;
 }
 
 .reset-button {
@@ -74,6 +75,21 @@
 @keyframes appear {
   0% {
     transform: scale(0,0);
+  }
+  50% {
+    transform: scale(1.1,1.1)
+  }
+  100% {
+    transform: scale(1,1);
+  }
+}
+
+@keyframes explode {
+  0% {
+    transform: scale(0,0);
+  }
+  50% {
+    transform: scale(1.2,1.2);
   }
   100% {
     transform: scale(1,1);
