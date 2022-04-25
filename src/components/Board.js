@@ -1,3 +1,5 @@
+import { getTouching } from "../App"
+
 const touchingColors = [
     "blue",
     "green",
@@ -15,32 +17,6 @@ export default function Board(props) {
         handleCellClick
     } = props
 
-
-    function getTouching(row,col) {
-        let touching = 0;
-        let possibles = [
-            [row-1,col],
-            [row+1,col],
-            [row,col-1],
-            [row,col+1],
-            [row-1,col-1],
-            [row-1,col+1],
-            [row+1,col-1],
-            [row+1,col+1]
-        ]
-        for (let possible of possibles) {
-            try {
-                if (board[possible[0]][possible[1]].isMine) {
-                    touching++
-                }
-            } catch(error) {
-                
-            }
-        }
-
-        return touching
-    }
-
     return (
         <div className="minesweeper-board">
             {board.map(
@@ -51,7 +27,7 @@ export default function Board(props) {
                         if (cell.isMine) {
                             cellInner = <div className="minesweeper-mine" />
                         } else {
-                            let touching = getTouching(i,j)
+                            let touching = getTouching(board,i,j)
                             if (touching > 0) {
                                 cellInner = <div style={{color: touchingColors[touching-1]}}>{touching}</div>
                             }

@@ -12,6 +12,34 @@ const rows = 8;
 const cols = 8;
 const mines = 10;
 
+export function getTouching(board,row,col) {
+  let touching = 0;
+  let possibles = [
+      [row-1,col],
+      [row+1,col],
+      [row,col-1],
+      [row,col+1],
+      [row-1,col-1],
+      [row-1,col+1],
+      [row+1,col-1],
+      [row+1,col+1]
+  ]
+  for (let possible of possibles) {
+      try {
+          if (board[possible[0]][possible[1]].isMine) {
+              touching++
+          }
+      } catch(error) {
+          
+      }
+  }
+
+  return touching
+}
+
+function ii(item,array) {
+  return array.map(item => JSON.stringify(item)).includes(JSON.stringify(item))
+}
 
 export default function App() {
   const [board, setBoard] = useState(generateBoard(rows,cols,mines))
@@ -42,8 +70,35 @@ export default function App() {
       setBoard(newBoard)
       if (newBoard[row][col].isMine) {
         endGame()
+      } else if (getTouching(board,row,col) === 0) {
+        let newBoard = JSON.parse(JSON.stringify(board))
+        floodFill(newBoard,row,col)
       }
     }  
+  }
+
+  function floodFill(newBoard,row,col) {
+    
+    for (var xoff = -1; xoff <= 1; xoff++) {
+      var i = row + xoff;
+      if (i < 0 || i >= cols) continue;
+  
+      for (var yoff = -1; yoff <= 1; yoff++) {
+        var j = col + yoff;
+        if (j < 0 || j >= rows) continue;
+  
+        var neighbor = newBoard[i][j];
+
+        if (!neighbor.isRevealed) {
+          newBoard[i][j].isRevealed = true;
+          if (getTouching(newBoard,i,j) == 0) {
+            floodFill(newBoard,i,j)
+          }
+          
+        }
+      }
+    }
+    setBoard(newBoard)
   }
 
   return (
