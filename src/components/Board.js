@@ -1,4 +1,5 @@
 import { getTouching } from "../App"
+import {ReactComponent as Flag} from "../red-flag.svg"
 
 const touchingColors = [
     "blue",
@@ -33,12 +34,14 @@ export default function Board(props) {
                                 }
 
                             }
+                        } else if (cell.isFlagged) {
+                            cellInner = <div className="flag"><Flag></Flag></div>
                         }
 
                         return (
                             <div
                                 className={`minesweeper-cell ${!cell.isRevealed ? ((i + j) % 2 === 0 ? "darker-green" : "lighter-green") : "revealed"}`}
-                                onClick={() => handleCellClick(i, j)}
+                                onClick={(e) => handleCellClick(e,i, j)}
                             >
                                 {cellInner}
                             </div>

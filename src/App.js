@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // component imports
 import Board from "./components/Board.js"
@@ -40,6 +40,21 @@ export function getTouching(board, row, col) {
 export default function App() {
   const [board, setBoard] = useState(generateBoard(rows, cols, mines))
   const [gameOver, setGameOver] = useState(false);
+  const [ctrlPressed, setCtrlPressed] = useState(false);
+  const [gameOverMessage, setGameOverMessage] = useState("-")
+
+  useEffect(() => {
+    document.addEventListener("keydown", event => {
+      if (event.ctrlKey) { // ctrl
+        setCtrlPressed(true);
+      }
+    })
+    document.addEventListener("keyup",event => {
+      if (event.code === "ControlLeft") { // ctrl
+        setCtrlPressed(false);
+      }
+    })
+  }, [])
 
   function reset() {
     setBoard(generateBoard(rows, cols, mines))
@@ -59,17 +74,24 @@ export default function App() {
     setTimeout(() => setGameOver(true), 500);
   }
 
-  function handleCellClick(row, col) {
-    if (!gameOver) {
+  function handleCellClick(e,row, col) {
+    if (gameOver) return;
+    if (!ctrlPressed && !board[row][col].isFlagged) {
       let newBoard = JSON.parse(JSON.stringify(board))
       newBoard[row][col].isRevealed = true;
       setBoard(newBoard)
+      if newBoard.filter(cell => )
       if (newBoard[row][col].isMine) {
+        setGameOverMessage("unlucky")
         endGame()
       } else if (getTouching(board, row, col) === 0) {
         let newBoard = JSON.parse(JSON.stringify(board))
         floodFill(newBoard, row, col)
       }
+    } else if (ctrlPressed && !board[row][col].isRevealed) {
+      let newBoard = JSON.parse(JSON.stringify(board))
+      newBoard[row][col].isFlagged = !board[row][col].isFlagged;
+      setBoard(newBoard)
     }
   }
 
@@ -86,7 +108,7 @@ export default function App() {
         var neighbor = newBoard[i][j];
 
         if (!neighbor.isRevealed) {
-          newBoard[i][j].isRevealed = true;
+          if (!neighbor.isFlagged) newBoard[i][j].isRevealed = true;
           if (getTouching(newBoard, i, j) == 0) {
             floodFill(newBoard, i, j)
           }

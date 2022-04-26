@@ -57,6 +57,11 @@
   animation-duration: .6s;
 }
 
+.flag {
+  height: 60%;
+  width: 60%;
+}
+
 .reset-button {
   position: absolute;
   height: 120px;
