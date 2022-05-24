@@ -5,43 +5,17 @@ import { useState, useEffect } from "react";
 import Board from "./components/Board.js"
 
 // lib imports
-import { generateBoard } from "./minesweeper"
-
+import { generateBoard, getTouching, getHidden } from "./minesweeper"
 
 const rows = 18;
-const cols = 18;
+const cols = 18
 const mines = 30;
-
-export function getTouching(board, row, col) {
-  let touching = 0;
-  let possibles = [
-    [row - 1, col],
-    [row + 1, col],
-    [row, col - 1],
-    [row, col + 1],
-    [row - 1, col - 1],
-    [row - 1, col + 1],
-    [row + 1, col - 1],
-    [row + 1, col + 1]
-  ]
-  for (let possible of possibles) {
-    try {
-      if (board[possible[0]][possible[1]].isMine) {
-        touching++
-      }
-    } catch (error) {
-
-    }
-  }
-
-  return touching
-}
 
 export default function App() {
   const [board, setBoard] = useState(generateBoard(rows, cols, mines))
   const [gameOver, setGameOver] = useState(false);
   const [ctrlPressed, setCtrlPressed] = useState(false);
-  const [gameOverMessage, setGameOverMessage] = useState("-")
+  const [message, setMessage] = useState("")
 
   useEffect(() => {
     document.addEventListener("keydown", event => {
@@ -59,9 +33,10 @@ export default function App() {
   function reset() {
     setBoard(generateBoard(rows, cols, mines))
     setGameOver(false)
+    setMessage("")
   }
 
-  function endGame() {
+  function endGame(board,win) {
     let newBoard = JSON.parse(JSON.stringify(board))
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
@@ -74,16 +49,20 @@ export default function App() {
     setTimeout(() => setGameOver(true), 500);
   }
 
-  function handleCellClick(e,row, col) {
+  function handleCellClick(row, col) {
     if (gameOver) return;
     if (!ctrlPressed && !board[row][col].isFlagged) {
       let newBoard = JSON.parse(JSON.stringify(board))
       newBoard[row][col].isRevealed = true;
       setBoard(newBoard)
-      if newBoard.filter(cell => )
+      if (getHidden(newBoard) === mines) {
+        setMessage("well done")
+        endGame(newBoard,true)
+      }
+
       if (newBoard[row][col].isMine) {
-        setGameOverMessage("unlucky")
-        endGame()
+        setMessage("unlucky, try again")
+        endGame(newBoard,false)
       } else if (getTouching(board, row, col) === 0) {
         let newBoard = JSON.parse(JSON.stringify(board))
         floodFill(newBoard, row, col)
@@ -120,11 +99,17 @@ export default function App() {
   }
 
   return (
-    <>
+    <div className="App">
+      <div className="message">
+        {message !== "" ? message : `${getHidden(board)} cells left to uncover`}
+      </div>
+
       <div className="minesweeper-board-container">
-        {gameOver && <button className="reset-button" onClick={reset}>RESET</button>}
+        {gameOver && <button className="reset-button" onClick={reset}>
+          RESET
+        </button>}
         <Board board={board} handleCellClick={handleCellClick} />
       </div>
-    </>
+    </div>
   )
 }

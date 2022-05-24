@@ -1,4 +1,4 @@
-import { getTouching } from "../App"
+import { getTouching } from "../minesweeper"
 import {ReactComponent as Flag} from "../red-flag.svg"
 
 const touchingColors = [
@@ -40,8 +40,8 @@ export default function Board(props) {
 
                         return (
                             <div
-                                className={`minesweeper-cell ${!cell.isRevealed ? ((i + j) % 2 === 0 ? "darker-green" : "lighter-green") : "revealed"}`}
-                                onClick={(e) => handleCellClick(e,i, j)}
+                                className={`minesweeper-cell ${!cell.isRevealed || cell.isMine ? ((i + j) % 2 === 0 ? "darker-green" : "lighter-green") : "revealed"}`}
+                                onClick={() => handleCellClick(i, j)}
                             >
                                 {cellInner}
                             </div>

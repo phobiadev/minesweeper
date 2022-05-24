@@ -30,4 +30,37 @@ function generateBoard(rows,cols,mines) {
     return board
 }
 
-export { getRandomInt, generateBoard }
+function getTouching(board, row, col) {
+    let touching = 0;
+    let possibles = [
+      [row - 1, col],
+      [row + 1, col],
+      [row, col - 1],
+      [row, col + 1],
+      [row - 1, col - 1],
+      [row - 1, col + 1],
+      [row + 1, col - 1],
+      [row + 1, col + 1]
+    ]
+    for (let possible of possibles) {
+      try {
+        if (board[possible[0]][possible[1]].isMine) {
+          touching++
+        }
+      } catch (error) {
+  
+      }
+    }
+  
+    return touching
+}
+
+function getHidden(board) {
+    let hidden = 0
+    for (let row of board) {
+        hidden += row.filter(item => !item.isRevealed).length
+    }
+    return hidden
+}
+
+export { generateBoard, getTouching, getHidden }

@@ -10,9 +10,15 @@
   font-family: "JetBrains Mono", monospace;
 }
 
-.minesweeper-board-container {
-  height: 100vh;
+.App {
+  display: grid;
   width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.minesweeper-board-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,7 +39,6 @@
   justify-content: center;
   align-items: center;
   transition: all .4s ease;
-
 }
 
 .lighter-green {
@@ -70,12 +75,17 @@
   font-weight: bold;
   color: white;
   text-align: center;
-  background-color: red;
-  border: 7px solid darkred;
+  background-color: blueviolet;
+  border: 7px solid darkslateblue;
   border-radius: 20px;
   animation-name: appear;
   animation-duration: 1s;
 }
+
+.message {
+  text-align: center;
+}
+
 
 @keyframes appear {
   0% {
