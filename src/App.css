@@ -86,6 +86,28 @@
   text-align: center;
 }
 
+.flag-button {
+  width: 100%;
+  max-width: 150px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+}
+
+.flag-button-on {
+  background-color: var(--dark-green);
+}
+
+.flag-button-off {
+  background-color: rgb(240, 107, 107);
+}
+
+.flag-button-container {
+  display: flex;
+  justify-content: center;
+}
+
 
 @keyframes appear {
   0% {
@@ -111,8 +133,8 @@
   }
 }
 
-@media(max-width: 600px;) {
+@media(max-width: 600px) {
   .minesweeper-board {
-    transform: scale(.7,.7)
+    zoom: 65%;
   }
 }

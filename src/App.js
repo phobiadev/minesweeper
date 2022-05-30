@@ -104,6 +104,8 @@ export default function App() {
         {message !== "" ? message : `${getHidden(board)} cells left to uncover`}
       </div>
 
+      {document.body.clientWidth <= 600 && <div className="flag-button-container"><button className={`flag-button ${ctrlPressed ? "flag-button-on" : "flag-button-off"}`} onClick={() => setCtrlPressed(!ctrlPressed)}>Flags {ctrlPressed ? "on" : "off"}</button></div>}
+
       <div className="minesweeper-board-container">
         {gameOver && <button className="reset-button" onClick={reset}>
           RESET
