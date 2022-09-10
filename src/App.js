@@ -19,12 +19,13 @@ export default function App() {
 
   useEffect(() => {
     document.addEventListener("keydown", event => {
-      if (event.ctrlKey) { // ctrl
+      if (event.altKey) { // alt
         setCtrlPressed(true);
       }
     })
     document.addEventListener("keyup",event => {
-      if (event.code === "ControlLeft") { // ctrl
+      console.log(event.code)
+      if (event.code === "AltLeft" || event.code === "AltRight") { // ctrl
         setCtrlPressed(false);
       }
     })
